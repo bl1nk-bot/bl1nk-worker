@@ -1,6 +1,7 @@
 name: Deploy to Modal
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
     paths:
