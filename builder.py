@@ -232,7 +232,7 @@ shared_volumes = {
     volumes=shared_volumes,
     env=build_env,
     secrets=shared_secrets,
-    concurrency_limit=3,
+    max_containers=3,
 )
 async def build_impl(
     owner_repo: str,
