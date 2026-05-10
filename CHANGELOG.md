@@ -141,7 +141,7 @@ Remaining future work:
 
 ---
 
-0.0.5 — Retry, Logging, Dry-Run & Cleanup
+# 0.0.5 — Retry, Logging, Dry-Run & Cleanup
 
 Added
 
@@ -166,3 +166,19 @@ Notes
 - tenacity ถูกเพิ่มใน requirements.txt
 - Changelog นี้ต่อเนื่องจาก 0.0.4 — ระบบตอนนี้มี retry, logging, dry-run และ release flow ที่แข็งแรงขึ้น
 - ฟีเจอร์ artifact upload ยังคงเป็นงานในอนาคต
+
+# 0.0.6 — Fix Deployment Dependencies
+
+## Fixed
+- Added missing Python dependencies in deploy workflow (`pip install -r requirements.txt` instead of `pip install modal`)
+- Included `starlette` in `requirements.txt` to prevent `ModuleNotFoundError` during `modal deploy`
+- Added `.pip_install_from_requirements("requirements.txt")` to Modal image to ensure runtime dependencies are present in containers
+- Resolved `ModuleNotFoundError` for `github` and `starlette` during deployment
+
+## Changed
+- Updated `deploy.yml` to use `workflow_dispatch` alongside push trigger for manual deployment
+
+# 0.0.7 — API Compatibility Update
+
+## Changed
+- Renamed deprecated `concurrency_limit` parameter to `max_containers` in `@app.function` (Modal API change 2025-02-24)
