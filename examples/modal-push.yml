@@ -1,0 +1,27 @@
+name: Modal Build (Push)
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'doc/**'
+      - '*.md'
+      - 'LICENSE'
+
+concurrency:
+  group: modal-push-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  trigger-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Modal build after push
+        run: |
+          curl -X POST "${{ secrets.MODAL_BUILD_WEBHOOK_URL }}" \
+            -H "Authorization: Bearer ${{ secrets.MODAL_WEBHOOK_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "owner_repo": "${{ github.repository }}",
+              "sha": "${{ github.sha }}"
+            }'

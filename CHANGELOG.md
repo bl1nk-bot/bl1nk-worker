@@ -182,3 +182,23 @@ Notes
 
 ## Changed
 - Renamed deprecated `concurrency_limit` parameter to `max_containers` in `@app.function` (Modal API change 2025-02-24)
+
+---
+
+# 0.0.8 — Modal v1 Migration & Deployment Fixes
+
+## Changed
+- Migrated `@app.web_endpoint` to `@app.asgi_app()` with FastAPI (Modal v1 API removed `web_endpoint`)
+- Moved `.cargo.config` to `.cargo/config.toml` — was at wrong path (root-level file instead of inside `.cargo/` directory)
+- Added `pkg-config` and `libssl-dev` to Modal image apt packages (required by sccache's openssl-sys)
+- Added `fastapi` to `requirements.txt` for FastAPI-based ASGI app
+
+## Added
+- `AGENTS.md` — agent instruction file for the repo
+- `examples/modal-release.yml` — tag-driven release workflow template
+- `examples/modal-push.yml` — push-to-main build workflow template
+
+## Fixed
+- `AttributeError: 'App' object has no attribute 'web_endpoint'` — replaced with `@modal.asgi_app()` + FastAPI
+- sccache compilation failure in Modal image — missing `pkg-config` and `libssl-dev`
+- `.cargo/config` not found by builder code due to wrong file path

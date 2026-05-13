@@ -1,0 +1,24 @@
+name: Modal Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  trigger-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Modal release
+        run: |
+          curl -X POST "${{ secrets.MODAL_RELEASE_WEBHOOK_URL }}" \
+            -H "Authorization: Bearer ${{ secrets.MODAL_WEBHOOK_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "owner_repo": "${{ github.repository }}",
+              "sha": "${{ github.sha }}",
+              "tag": "${{ github.ref_name }}"
+            }'
