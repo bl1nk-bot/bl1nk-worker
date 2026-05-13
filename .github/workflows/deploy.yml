@@ -1,6 +1,10 @@
 name: Deploy to Modal
 
+permissions:
+  contents: read
+
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
     paths:
@@ -22,7 +26,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install modal
+        run: pip install -r requirements.txt   # ✅ แก้แล้ว
 
       - name: Deploy to Modal
         env:

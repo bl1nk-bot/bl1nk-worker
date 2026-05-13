@@ -194,6 +194,7 @@ app = modal.App("rust-builder")
 image = (
     modal.Image.debian_slim()
     .apt_install("curl", "git", "build-essential", "clang", "jq")
+    .pip_install_from_requirements("requirements.txt")   # ✅ เพิ่ม Python deps ใน image
     .run_commands(
         "curl https://sh.rustup.rs -sSf | sh -s -- -y",
         "bash -c 'source $HOME/.cargo/env && rustup default stable'",
@@ -231,7 +232,7 @@ shared_volumes = {
     volumes=shared_volumes,
     env=build_env,
     secrets=shared_secrets,
-    concurrency_limit=3,
+    max_containers=3,
 )
 async def build_impl(
     owner_repo: str,

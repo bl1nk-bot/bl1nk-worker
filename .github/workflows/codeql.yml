@@ -2,13 +2,19 @@ name: CodeQL
 
 on:
   push:
-    branches:
-      - main
-
+    branches: [ main ]
+    paths:
+      - '**.py'
+      - '.github/workflows/*.yml'
+      - '.github/workflows/*.yaml'
+      - 'requirements.txt'
   pull_request:
-    branches:
-      - main
-
+    branches: [ main ]
+    paths:
+      - '**.py'
+      - '.github/workflows/*.yml'
+      - '.github/workflows/*.yaml'
+      - 'requirements.txt'
   schedule:
     - cron: '0 3 * * 1'
 

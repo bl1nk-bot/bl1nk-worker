@@ -1,0 +1,28 @@
+name: Modal Build (PR)
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - 'doc/**'
+      - '*.md'
+      - 'LICENSE'
+
+concurrency:
+  group: modal-build-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  trigger-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Modal build for PR
+        run: |
+          curl -X POST "${{ secrets.MODAL_BUILD_WEBHOOK_URL }}" \
+            -H "Authorization: Bearer ${{ secrets.MODAL_WEBHOOK_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "owner_repo": "${{ github.repository }}",
+              "sha": "${{ github.event.pull_request.head.sha }}",
+              "pr_number": "${{ github.event.pull_request.number }}"
+            }'
