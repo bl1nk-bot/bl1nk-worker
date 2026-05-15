@@ -5,8 +5,11 @@ description = "Bl1nk worker on Vercel"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-  "fastapi",
-  "uvicorn",
+  "fastapi[standard]",
+  "uvicorn[standard]",
+  "PyGithub",
+  "modal",
+  "tenacity",
 ]
 
 [build-system]
