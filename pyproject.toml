@@ -1,2 +1,17 @@
+[project]
+name = "bl1nk-worker"
+version = "0.1.0"
+description = "Bl1nk worker on Vercel"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi",
+  "uvicorn",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [tool.vercel]
 entrypoint = "builder:app"
