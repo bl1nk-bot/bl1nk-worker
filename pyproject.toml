@@ -17,4 +17,4 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.vercel]
-entrypoint = "builder:web_app"
+entrypoint = "builder:app"

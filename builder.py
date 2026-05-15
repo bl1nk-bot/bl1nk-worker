@@ -377,10 +377,14 @@ async def release_webhook(request: Request):
     return {"ok": True, "type": "release"}
 
 
+# Plain ASGI app for Vercel
+app = web_app
+
+
 @app.function(
     image=image,
     secrets=shared_secrets,
 )
 @modal.asgi_app()
-def web():
+def modal_web():
     return web_app
