@@ -263,7 +263,7 @@ class BuildPipeline:
 
 
 # ────────────── Modal App Setup ──────────────
-app = modal.App("rust-builder")
+modal_app = modal.App("rust-builder")
 
 image = (
     modal.Image.debian_slim()
@@ -302,7 +302,7 @@ shared_volumes = {
 }
 
 
-@app.function(
+@modal_app.function(
     image=image,
     cpu=8,
     memory=16384,
@@ -341,10 +341,10 @@ async def authenticate(request: Request):
 
 
 # ────────────── FastAPI Web App ──────────────
-web_app = FastAPI()
+app = FastAPI()
 
 
-@web_app.post("/build")
+@app.post("/build")
 async def build_webhook(request: Request):
     if auth_resp := await authenticate(request):
         return auth_resp
@@ -360,7 +360,7 @@ async def build_webhook(request: Request):
     return {"ok": True, "type": "build"}
 
 
-@web_app.post("/release")
+@app.post("/release")
 async def release_webhook(request: Request):
     if auth_resp := await authenticate(request):
         return auth_resp
@@ -377,14 +377,10 @@ async def release_webhook(request: Request):
     return {"ok": True, "type": "release"}
 
 
-# Plain ASGI app for Vercel
-app = web_app
-
-
-@app.function(
+@modal_app.function(
     image=image,
     secrets=shared_secrets,
 )
 @modal.asgi_app()
 def modal_web():
-    return web_app
+    return app
