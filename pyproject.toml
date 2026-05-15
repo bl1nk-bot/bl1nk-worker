@@ -7,7 +7,6 @@ requires-python = ">=3.12"
 dependencies = [
   "fastapi[standard]",
   "uvicorn[standard]",
-  "starlette",
   "PyGithub",
   "modal",
   "tenacity",
@@ -18,4 +17,4 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.vercel]
-entrypoint = "builder:web"
+entrypoint = "builder:web_app"
